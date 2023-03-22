@@ -1,0 +1,10 @@
+CREATE TABLE patients (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    code CHAR(3) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    came_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    served BOOLEAN NOT NULL DEFAULT FALSE
+)
