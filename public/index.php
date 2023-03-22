@@ -19,15 +19,16 @@ if (isset($_POST["last_name"]) && isset($_POST["code"]) ){
     };
 }
 function validateLogin($last_name, $code){
+    $clientData = null;
     $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-    echo "SELECT * FROM patients WHERE last_name = '$last_name' AND code = '$code'";
-    $result = pg_query($dbconn, "SELECT * FROM patients WHERE last_name = '$last_name' AND code = '$code'");
+    $result = pg_query($dbconn, "SELECT * FROM patients WHERE last_name = '$last_name' AND code = '$code'");    
     if (!$result || pg_num_rows($result) == 0) {
-        echo "Not found";
-        return null;
+        echo "Not found";    
     }else{
-        return pg_fetch_assoc($result);
-    }
+        $clientData = $result;
+    }        
+    pg_close($dbconn);
+    return $clientData;
 }
 ?>
 <!DOCTYPE html>
