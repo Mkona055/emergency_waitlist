@@ -1,4 +1,5 @@
 <?php
+require_once('_config.php');
 
 $error_message = null;
 if (isset($_SESSION['patient']) && $_SESSION['patient'] !== null) {
@@ -58,14 +59,22 @@ function validateLogin($last_name, $code){
 			<div class="col-md-4">
 				<div class="login-form">
 					<h3 class="text-center mb-4">Hospital Triage</h3>
-					<form method=post action=index.php>
+					<form class="needs-validation" method=post action=index.php>
 						<div class="form-group">
 							<label for="last_name">Last Name:</label>
-							<input type="text" class="form-control" id="last_name" name="last_name" value=<?php echo $_POST["last_name"] ?> required>
+							<input required type="text" class="form-control" id="last_name" name="last_name" value=<?php if (isset($_POST["last_name"])){
+																															echo $_POST["last_name"];
+																														} else {
+																															echo "";
+																														}?> >
 						</div>
 						<div class="form-group">
 							<label for="password">Code(3 letters):</label>
-							<input type="password" class="form-control" id="code" name="code" value=<?php echo $_POST["code"] ?>  required>
+							<input required type="password" class="form-control" id="code" name="code" value=<?php if (isset($_POST["code"])){
+																															echo $_POST["code"];
+																														} else {
+																															echo "";
+																														}?> >
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary btn-block">Login</button>
