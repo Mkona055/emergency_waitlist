@@ -52,7 +52,7 @@ function validateAdminLogin($username, $password){
 			<div class="col-md-4">
 				<div class="login-form">
 					<h3 class="text-center mb-4">Hospital Triage </h3>
-					<form class="needs-validation" method=post action="/admin">
+					<form class="needs-validation" method=post action="./">
 						<div class="form-group">
 							<label for="last_name">Admin Username :</label>
 							<input required type="text" class="form-control" id="username" name="username" value=<?php if (isset($_POST["username"])){

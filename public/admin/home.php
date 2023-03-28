@@ -60,7 +60,7 @@ if (!isset($_SESSION['admin'])) {
 
                 <ul class="navbar-nav ms-auto pe-5">
                     <li class="nav-item">
-                        <a class="btn btn-danger" href="#">Logout</a>
+                        <a class="btn btn-danger" href="./logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
