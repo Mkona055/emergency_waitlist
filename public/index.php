@@ -26,7 +26,7 @@ function validateLogin($last_name, $code){
     if (!$result || pg_num_rows($result) == 0) {
         echo "Not found";    
     }else{
-        $clientData = $result;
+        $clientData = pg_fetch_assoc($result);
     }        
     pg_close($dbconn);
     return $clientData;
@@ -38,21 +38,11 @@ function validateLogin($last_name, $code){
 	<title>Login Page</title>
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-	<!-- Custom CSS -->
-	<style type="text/css">
-		body {
-			background-color: #f2f2f2;
-		}
-
-		.login-form {
-			background-color: #fff;
-			padding: 20px;
-			border-radius: 5px;
-			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
-		}
-	</style>
-</head>
+	<link rel="stylesheet" href="styles/index.css">
+	<!-- Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></head>
 <body>
 	<div class="container mt-5">
 		<div class="row justify-content-center">
@@ -85,9 +75,6 @@ function validateLogin($last_name, $code){
 		</div>
 	</div>
 
-	<!-- Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
 </body>
 </html>
