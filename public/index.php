@@ -3,7 +3,7 @@ require_once('_config.php');
 
 $error_message = null;
 if (isset($_SESSION['patient']) && $_SESSION['patient'] !== null) {
-    header("Location: app/home.php");
+    header("Location: ./home.php");
     exit();
 }
 if (isset($_POST["last_name"]) && isset($_POST["code"]) ){
