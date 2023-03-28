@@ -29,7 +29,7 @@ class Patient {
         $email = $form['email'];
         $injury_severity = $form['injury_severity'];
         $phone = $form['phone_number'];
-        return new Patient(uniqid(),$first_name, $last_name, $email, $injury_severity, $phone, date('Y-m-d H:i:s'), 'f', Patient::randomCode());
+        return new Patient(null,$first_name, $last_name, $email, $injury_severity, $phone, date('Y-m-d H:i:s'), 'f', Patient::randomCode());
     }
     public static function getPatientfromDb($db, $last_name, $code){
         $result = pg_query($db, "SELECT * FROM patients WHERE last_name = $last_name AND code = $code");
@@ -41,8 +41,10 @@ class Patient {
 
         }
     }
-    public function getAllPatientsfromDb($db, $last_name, $code){
-        $result = pg_query($db, "SELECT * FROM patients WHERE last_name = $this->last_name AND code = $this->code");
+    public static function getOrderedPatientsfromDb($db){
+        $result = pg_query($db,"SELECT * FROM patients 
+                                WHERE served = 'f' 
+                                ORDER BY injury_severity DESC, came_at ASC");
         # return all of patients from results
         if (!$result) {
             return null;
@@ -67,8 +69,8 @@ class Patient {
         return $randomString; 
     }
     public function save($db){
-        $result = pg_query($db, "INSERT INTO patients (id, first_name, last_name, code, email, injury_severity, phone, came_at, served)
-                                 VALUES ('$this->id','$this->first_name', '$this->last_name', '$this->code', 
+        $result = pg_query($db, "INSERT INTO patients ( first_name, last_name, code, email, injury_severity, phone, came_at, served)
+                                 VALUES ('$this->first_name', '$this->last_name', '$this->code', 
                                         '$this->email', $this->injury_severity, '$this->phone', '$this->came_at', '$this->served')");
         if (!$result) {
             return false;
@@ -76,8 +78,8 @@ class Patient {
             return true;
         }
     }
-    public function serve($db){
-        $result = pg_query($db, "UPDATE patients SET served = true WHERE id = $this->id");
+    public static function markPatientServed($db, $id){
+        $result = pg_query($db, "UPDATE patients SET served = true WHERE id = '$id'");
         if (!$result) {
             return false;
         }else{
