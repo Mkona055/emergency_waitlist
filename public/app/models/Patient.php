@@ -22,7 +22,16 @@ class Patient {
         $this->code = $code ;
 
     }
-
+    public function save($db){
+        $result = pg_query($db, "INSERT INTO patients ( first_name, last_name, code, email, injury_severity, phone, came_at, served)
+                                 VALUES ('$this->first_name', '$this->last_name', '$this->code', 
+                                        '$this->email', $this->injury_severity, '$this->phone', '$this->came_at', '$this->served')");
+        if (!$result) {
+            return false;
+        }else{
+            return true;
+        }
+    }
     public static function getPatientfromForm($form){
         $first_name = $form['first_name'];
         $last_name = $form['last_name'];
@@ -68,16 +77,7 @@ class Patient {
         }
         return $randomString; 
     }
-    public function save($db){
-        $result = pg_query($db, "INSERT INTO patients ( first_name, last_name, code, email, injury_severity, phone, came_at, served)
-                                 VALUES ('$this->first_name', '$this->last_name', '$this->code', 
-                                        '$this->email', $this->injury_severity, '$this->phone', '$this->came_at', '$this->served')");
-        if (!$result) {
-            return false;
-        }else{
-            return true;
-        }
-    }
+
     public static function markPatientServed($db, $id){
         $result = pg_query($db, "UPDATE patients SET served = true WHERE id = '$id'");
         if (!$result) {
@@ -85,6 +85,15 @@ class Patient {
         }else{
             return true;
         }
+    }
+    public static function getPatientPosition($db, $id){
+        $patients = Patient::getOrderedPatientsfromDb($db);
+        for ($i=0; $i < count($patients); $i++) { 
+            if($patients[$i]->id == $id){
+                return $i;
+            }
+        }
+        return null;
     }
 
 
