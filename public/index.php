@@ -1,36 +1,16 @@
 <?php
 require_once('_config.php');
 
-$error_message = null;
+session_start();
+$error = isset($_GET['error'])? $_GET['error'] : false;      
+
 if (isset($_SESSION['patient']) && $_SESSION['patient'] !== null) {
     header("Location: ./home.php");
     exit();
+}else{
+	session_abort();
 }
-if (isset($_POST["last_name"]) && isset($_POST["code"]) ){
-    $last_name = $_POST["last_name"];
-    $code = $_POST["code"];
-    $result = validateLogin($last_name, $code);
-    if($result){        
-        session_start();
-        $_SESSION['patient'] = $result; 
-        header("Location: app/home.php");
-        exit();
-    }else{
-        $error_message = "Invalid login";
-    };
-}
-function validateLogin($last_name, $code){
-    $clientData = null;
-    $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-    $result = pg_query($dbconn, "SELECT * FROM patients WHERE last_name = '$last_name' AND code = '$code'");    
-    if (!$result || pg_num_rows($result) == 0) {
-        echo "Not found";    
-    }else{
-        $clientData = pg_fetch_assoc($result);
-    }        
-    pg_close($dbconn);
-    return $clientData;
-}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,16 +20,20 @@ function validateLogin($last_name, $code){
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="styles/index.css">
 	<!-- Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></head>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
 <body>
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-4">
 				<div class="login-form">
 					<h3 class="text-center mb-4">Hospital Triage</h3>
-					<form class="needs-validation" method=post action=index.php>
+					<?php if ($error) { ?>
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							Invalid credentials
+						</div>
+                	<?php } ?>
+					<form class="needs-validation" method=post action="login.php">
 						<div class="form-group">
 							<label for="last_name">Last Name:</label>
 							<input required type="text" class="form-control" id="last_name" name="last_name" value=<?php if (isset($_POST["last_name"])){
