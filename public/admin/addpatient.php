@@ -1,22 +1,14 @@
 <?php
-require_once('../_config.php');
-use Models\Patient;
+
 session_start();
 if (!isset($_SESSION['admin'])) {
-
+    session_abort();
+    header("Location: ./index.php");
+    exit();
 } else { 
-    $saved = false;
-    $error = false;
-    if (isset($_POST) && !empty($_POST)) {
-        $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-        $form = $_POST;
-        $patient = Patient::getPatientfromForm($form);
-        if ($patient->save($dbconn)) {
-            $saved = true;
-        } else {
-            $error = true;
-        };
-    }
+    $saved = isset($_GET['success'])? $_GET['success'] : false;      
+    $error = isset($_GET['error'])? $_GET['error'] : false;    
+    
     
     ?>
 
@@ -79,8 +71,7 @@ if (!isset($_SESSION['admin'])) {
                 <?php } ?>
 
 
-                <form id=form class="row g-3 needs-validation border rounded border-2  mt-2" method=post
-                    action=./addpatient.php>
+                <form id=form class="row g-3 needs-validation border rounded border-2  mt-2" method=post action=save_patient.php>
                     <div class="col-md-4">
                         <label for="validationCustom01" class="form-label">First name</label>
                         <input type="text" class="form-control" id="validationCustom01" name="first_name" required>
