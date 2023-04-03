@@ -29,7 +29,7 @@ if (!isset($_SESSION['admin'])) {
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-light border border-black bg-light ps-2">
-            <a class="navbar-brand text-lg" href="#">
+            <a class="navbar-brand text-lg" href="./">
                 Hospital triage
             </a>
 
@@ -48,7 +48,7 @@ if (!isset($_SESSION['admin'])) {
                     </li>
                 </ul>
 
-                <ul class="navbar-nav ms-5">
+                <ul class="navbar-nav ms-auto pe-5">
                     <li class="nav-item">
                         <a class="btn btn-danger" href="./logout.php">Logout</a>
                     </li>
@@ -61,7 +61,7 @@ if (!isset($_SESSION['admin'])) {
 
             <?php if ($success) { ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Patient was removed from the queue
+                    Patient was removed from the queue. <strong>Next patient can be served</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php } ?>
