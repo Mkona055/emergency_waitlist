@@ -1,6 +1,6 @@
 <?php
 
-require_once('../_config.php');
+require_once('./_config.php');
 use Models\Patient;
 
 session_start();
@@ -20,6 +20,14 @@ case "/markServed":
     } else {
         $data = json_encode(["error" => "Failed to mark patient as served"]);
     };
+    break;
+case "/getPatientPosition":
+    $rank = Patient::getPatientPosition($dbconn, $_SESSION['patient']['id']);
+    $data = json_encode(["rank" => $rank]);
+    break;
+case "/getPatient":
+    $patient = $_SESSION['patient'];
+    $data = json_encode(["data" => $patient]);
     break;
 default:
     $data = json_encode(["error" => "404"]);

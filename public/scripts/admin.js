@@ -2,7 +2,7 @@
 function markAsServed(id){
     $.ajax({
         type: "POST",
-        url: `./api.php?action=/markServed&id=${id}`,
+        url: `/api.php?action=/markServed&id=${id}`,
         data: {
             id: id
         },
@@ -22,7 +22,7 @@ $(document).ready(function () {
     $("#validationCustom05").inputmask('(999)-999-9999');
     $.ajax({
         type: "GET",
-        url: `./api.php?action=/getUnservedPatients`,
+        url: `/api.php?action=/getUnservedPatients`,
         success: function(res) {
             patients = res.patients;
 
