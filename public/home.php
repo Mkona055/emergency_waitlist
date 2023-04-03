@@ -1,6 +1,5 @@
 <?php
     require_once('./_config.php');
-    use Models\Patient;
 
     session_start();
     if(!isset($_SESSION['patient'])){
@@ -8,8 +7,6 @@
 
 
     }else{
-        $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-        $rank = Patient::getPatientPosition($dbconn, $_SESSION['patient']['id']);
         
         ?>
             <html>
@@ -23,6 +20,8 @@
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+                <script src="./scripts/patient.js"></script>
+
             </head>
             <body>
                 <nav class="d-flex navbar navbar-expand-lg navbar-light border border-black bg-light ps-2">
@@ -47,18 +46,18 @@
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-12">
-                            <h1 class="text-center">Welcome <?php echo ($_SESSION['patient']['first_name'] . " " . $_SESSION['patient']['last_name']) ?></h1>
+                            <h1 class="text-center" id="welcome-text"></h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="text-center">Your position in the queue is: <?php echo $rank ?></h2>
+                            <h2 class="text-center" id="position-text"></h2>
                         </div>
                     </div>
                     <div class="mt-5 row">
                         <div class="col-12">
-                            <h1 class="text-center estimated-time"><?php echo $rank * 15?> mn </h1>
-                            <h3 class="text-center"> Estimated time</h3>
+                            <h1 class="text-center estimated-time"></h1>
+                            <h3 class="text-center" id="estimated-time"></h3>
                         </div>
                     </div>
             </body>
