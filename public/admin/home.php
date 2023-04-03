@@ -4,22 +4,12 @@ use Models\Patient;
 
 session_start();
 if (!isset($_SESSION['admin'])) {
+    session_abort();
     header('Location: ./');
 
 } else {
-    $success = false;
-    $error = false;
-    $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
-    $patients = Patient::getOrderedPatientsfromDb($dbconn);
-    if (isset($_POST) && !empty($_POST)) {
-        if (Patient::markPatientServed($dbconn, $_POST['id'])) {
-            $success = true;
-        } else {
-            $error = true;
-        };
-        header('Location: ./');
-
-    }
+    $success = isset($_GET['success'])? $_GET['success'] : false;      
+    $error = isset($_GET['error'])? $_GET['error'] : false;      
     ?>
 
     <html>
@@ -28,17 +18,17 @@ if (!isset($_SESSION['admin'])) {
         <title>Admin Page</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="refresh" content="10">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
-        <script src="/scripts/admin.js"></script>
+        <script src="../scripts/admin.js"></script>
 
     </head>
 
     <body>
-        <nav class="d-flex navbar navbar-expand-lg navbar-light border border-black bg-light ps-2">
+        <nav class="navbar navbar-expand-lg navbar-light border border-black bg-light ps-2">
             <a class="navbar-brand text-lg" href="#">
                 Hospital triage
             </a>
@@ -49,7 +39,7 @@ if (!isset($_SESSION['admin'])) {
             </button>
 
             <div class="d-flex ms-auto collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="./">Home</a>
                     </li>
@@ -58,7 +48,7 @@ if (!isset($_SESSION['admin'])) {
                     </li>
                 </ul>
 
-                <ul class="navbar-nav ms-auto pe-5">
+                <ul class="navbar-nav ms-5">
                     <li class="nav-item">
                         <a class="btn btn-danger" href="./logout.php">Logout</a>
                     </li>
@@ -81,8 +71,8 @@ if (!isset($_SESSION['admin'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php } ?>
-
-            <table class="me-5 table table-striped border border-black rounded">
+                
+            <table  class="me-5 table table-striped border border-black rounded">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -97,31 +87,9 @@ if (!isset($_SESSION['admin'])) {
 
                     </tr>
                 </thead>
-                <?php
-                for ($i = 0; $i < count($patients); $i++) {
-                    $patient = $patients[$i];
-                    echo '<form method="post" action="./home.php">';
-                    echo "<tr>";
-                    echo "<td>" . ($i + 1) . "</td>";
-                    echo "<td>" . $patient->code . "</td>";
-                    echo "<td>" . $patient->first_name . "</td>";
-                    echo "<td>" . $patient->last_name . "</td>";
-                    echo "<td>" . $patient->email . "</td>";
-                    echo "<td>" . $patient->injury_severity . "</td>";
-                    echo "<td>" . $patient->came_at . "</td>";
-                    echo "<td>" . $patient->phone . "</td>";
-                    if ($i === 0) {
-                        echo '<td><button type=submit onclick=markAsServed() class="text-white btn btn-success" name=id value=' . $patient->id . '> Mark as served</button></td>';
+                <tbody id="patientsUnserved">                        
+                </tbody>
 
-                    } else {
-                        echo '<td><button type=submit onclick=markAsServed() class="text-white btn btn-success" name=id value=' . $patient->id . ' disabled> Mark as served</button></td>';
-
-                    }
-                    echo "</tr>";
-                    echo '</form>';
-
-                }
-                ?>
             </table>
 
         </div>
