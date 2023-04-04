@@ -16,7 +16,7 @@ if (isset($_POST["username"]) && isset($_POST["password"]) ){
 }
 function validateAdminLogin($username, $password){
     $adminData = null;
-    $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=postgres");
+    $dbconn = pg_connect("host=localhost dbname=emergency_waitlist user=postgres password=postgres");
     $result = pg_query($dbconn, "SELECT * FROM admins WHERE username = '$username' AND password = '$password'");    
     if ($result && pg_num_rows($result) !== 0) {
         $adminData = pg_fetch_assoc($result);  

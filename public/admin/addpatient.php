@@ -6,7 +6,9 @@ if (!isset($_SESSION['admin'])) {
     header("Location: ./index.php");
     exit();
 } else { 
-    $saved = isset($_GET['success'])? $_GET['success'] : false;      
+    $saved = isset($_GET['success'])? $_GET['success'] : false;    
+    $code = isset($_GET['code'])? $_GET['code'] : null;      
+  
     $error = isset($_GET['error'])? $_GET['error'] : false;    
     
     
@@ -59,7 +61,7 @@ if (!isset($_SESSION['admin'])) {
             <h2 class="text-center mt-5 mb-5">Add patients</h2>
                 <?php if ($saved) { ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Patient was saved successfully
+                        Patient was saved successfully, is personal code is: <strong><?php echo $code; ?></strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php } ?>
