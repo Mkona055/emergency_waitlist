@@ -1,5 +1,11 @@
 # Emergency Waitlist
 
+## DB Design 
+
+  * [Database Design](/docs/db.md), 
+  * [Database schema (SQL)](/db/schema.sql), 
+  * [Data examples (SQL)](/db/seed.sql).
+
 ## Run the application
 
 1- Set up the DB
@@ -8,8 +14,8 @@
   psql -U postgres
   postgres=# CREATE DATABASE emergency_waitlist;
   postgres=# \c emergency_waitlist
-  emergency_waitlist=# \i docs/db/schema.sql
-  emergency_waitlist=# \i docs/db/seed.sql
+  emergency_waitlist=# \i db/schema.sql
+  emergency_waitlist=# \i db/seed.sql
 ```
 2- Run the PHP server
 
@@ -17,6 +23,7 @@
   cd public
   php -S localhost:4000
 ```
+
 ## How to use the application
 
 ### Admins
