@@ -4,9 +4,9 @@ The "Hospital Triage" app helps admins and patients better understand wait times
 
 ## DB Design 
 
-  * [Database Design](/docs/db.md), 
-  * [Database schema (SQL)](/db/schema.sql), 
-  * [Data examples (SQL)](/db/seed.sql).
+  * [Database Design](/docs/db.md)
+  * [Database schema (SQL)](/db/schema.sql)
+  * [Data examples (SQL)](/db/seed.sql)
 
 ## Run the application
 
