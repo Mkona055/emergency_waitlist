@@ -4,7 +4,7 @@
 
 ![Schéma de la base de données](schema.png)
 
-## Schéma SQL
+## Schema SQL
 
 [Click here to open the file](../db/schema.sql)
 
