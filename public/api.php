@@ -4,7 +4,6 @@ require_once('./_config.php');
 use Models\Patient;
 
 session_start();
-$dbconn = pg_connect("host=localhost dbname=emergency_waitlist user=postgres password=postgres");
 
 
 switch ($_GET["action"]) {

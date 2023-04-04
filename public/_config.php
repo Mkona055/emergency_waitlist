@@ -1,6 +1,7 @@
 <?php
 
 $GLOBALS["appDir"] = resolve_path("app");
+$GLOBALS["dbconn"] = pg_connect("host=localhost dbname=emergency_waitlist user=postgres password=postgres");
 
 function resolve_path($name)
 {

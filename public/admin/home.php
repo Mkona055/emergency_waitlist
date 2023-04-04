@@ -1,6 +1,5 @@
 <?php
 require_once('../_config.php');
-use Models\Patient;
 
 session_start();
 if (!isset($_SESSION['admin'])) {

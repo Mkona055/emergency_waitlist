@@ -1,6 +1,5 @@
 <?php
 require_once('../_config.php');
-
 $error = isset($_GET['error'])? $_GET['error'] : false;      
 session_start();
 if (isset($_SESSION['admin']) && $_SESSION['admin'] !== null) {
@@ -32,7 +31,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] !== null) {
 							Invalid credentials
 						</div>
                 	<?php } ?>
-					<form class="needs-validation" method=post action="login.php">
+					<form class="needs-validation" method=post action="./login.php">
 						<div class="form-group">
 							<label for="last_name">Admin Username :</label>
 							<input required type="text" class="form-control" id="username" name="username" value=<?php if (isset($_POST["username"])){
