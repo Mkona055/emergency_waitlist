@@ -11,14 +11,18 @@ The "Hospital Triage" app helps admins and patients better understand wait times
 ## Run the application
 
 1- Set up the DB
+* 
+  ```bash
+    psql -c "CREATE DATABASE emergency_waitlist"
+    psql -d emergency_waitlist -f db/schema.sql -f db/seed.sql
+  ```
+* In the [_config.php](/public/_config.php) file, replace the following line with your database username and password if you have them customed. Otherwise, **do nothing**
 
-```bash
-  psql -U postgres
-  postgres=# CREATE DATABASE emergency_waitlist;
-  postgres=# \c emergency_waitlist
-  emergency_waitlist=# \i db/schema.sql
-  emergency_waitlist=# \i db/seed.sql
+```php
+  $GLOBALS["dbconn"] = pg_connect("host=localhost dbname=emergency_waitlist user=postgres password=postgres");
 ```
+
+
 2- Run the PHP server
 
 ```bash
@@ -28,7 +32,7 @@ The "Hospital Triage" app helps admins and patients better understand wait times
 
 ## How to use the application
 
-### Use as an admins
+### Use as an admin
 
 1. The admins must go to `localhost:4000/admin/` and login with username/password `admin` 
 2. Once the credentials are verified the admin will be displayed the list of users in the queue
