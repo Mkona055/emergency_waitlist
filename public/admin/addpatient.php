@@ -61,7 +61,7 @@ if (!isset($_SESSION['admin'])) {
             <h2 class="text-center mt-5 mb-5">Add patients</h2>
                 <?php if ($saved) { ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Patient was saved successfully, is personal code is: <strong><?php echo $code; ?></strong>
+                        Patient was saved successfully, his personal code is: <strong><?php echo $code; ?></strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php } ?>
