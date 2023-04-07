@@ -36,13 +36,13 @@ The "Hospital Triage" app helps admins and patients better understand wait times
 
 1. The admins must go to `localhost:4000/admin/` and login with username/password `admin` 
 2. Once the credentials are verified the admin will be displayed the list of users in the queue
-![ServePatients.](./assets/ServePatients.png)
+![ServePatients](./assets/ServePatients.png)
 3. The first user in the list is the one who is currently supposed to be served. The queue is updated everytime that a new patient is added or when the patient currently served is marked as served thus removed from the list
 4. To add a patient click on the navbar link (`Add patients`). You will be redirected to the page shown below to add a new patient. 
 ![addPatients](./assets/addPatients.png)
 5. When the patient is successfully saved is personal 3 characters code is shown to the admin so that he can communicate it with the patient recently arrived. This code will be used by the client to log in and check is place in queue
 ![clientCode](./assets/clientCode.png)
-6. The admin can go back to the home page to see the updated list of patients in the queue
+6. The admin can go back to the home page to see the updated list of patients in the queue. Observe that the patient Jane Doe will be served before Andree Turcotte even though its injury severity is higher than Jane's. This is due to the time waited in the queue which also influence the outcome of the classification. 
 ![updatedQueue](./assets/updatedQueue.png)
 
 ### Use as a patients
