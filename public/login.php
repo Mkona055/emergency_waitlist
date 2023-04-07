@@ -16,7 +16,7 @@ if (isset($_POST["last_name"]) && isset($_POST["code"]) ){
 }
 function validateLogin($last_name, $code, $dbconn){
     $clientData = null;
-    $result = pg_query($dbconn, "SELECT * FROM patients WHERE last_name = '$last_name' AND code = '$code' AND served = 'false'");    
+    $result = pg_query($dbconn, "SELECT * FROM patients WHERE last_name = '$last_name' AND code = '$code'");    
     if ($result && pg_num_rows($result) !== 0) {
         $clientData = pg_fetch_assoc($result);  
     }           

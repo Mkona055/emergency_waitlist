@@ -9,8 +9,7 @@ class Patient {
     public $code;
     public $phone;
     public $came_at ;
-    public $served = false ;
-    public function __construct($id, $first_name,$last_name, $email, $injury_severity, $phone, $came_at, $served, $code){
+    public function __construct($id, $first_name,$last_name, $email, $injury_severity, $phone, $came_at, $code){
         $this->id = $id;
         $this->first_name = $first_name;
         $this->last_name = $last_name;
@@ -18,14 +17,13 @@ class Patient {
         $this->injury_severity = $injury_severity;
         $this->phone = $phone;
         $this->came_at = $came_at;
-        $this->served = $served;    
         $this->code = $code ;
 
     }
     public function save($db){
-        $result = pg_query($db, "INSERT INTO patients ( first_name, last_name, code, email, injury_severity, phone, came_at, served)
+        $result = pg_query($db, "INSERT INTO patients ( first_name, last_name, code, email, injury_severity, phone, came_at)
                                  VALUES ('$this->first_name', '$this->last_name', '$this->code', 
-                                        '$this->email', $this->injury_severity, '$this->phone', '$this->came_at', '$this->served')");
+                                        '$this->email', $this->injury_severity, '$this->phone', NOW())");
         if (!$result) {
             return false;
         }else{
@@ -38,7 +36,7 @@ class Patient {
         $email = $form['email'];
         $injury_severity = $form['injury_severity'];
         $phone = $form['phone_number'];
-        return new Patient(null,$first_name, $last_name, $email, $injury_severity, $phone, date('Y-m-d H:i:s'), 'f', Patient::randomCode());
+        return new Patient(null, $first_name, $last_name, $email, $injury_severity, $phone, null, Patient::randomCode());
     }
     public static function getPatientfromDb($db, $last_name, $code){
         $result = pg_query($db, "SELECT * FROM patients WHERE last_name = $last_name AND code = $code");
@@ -46,14 +44,14 @@ class Patient {
             return null;
         }else{
             $row = pg_fetch_assoc($result);
-            return new Patient($row['id'], $row['first_name'], $row['last_name'], $row['email'], $row['injury_severity'], $row['phone'], $row['came_at'], $row['served'], $row['code']);
+            return new Patient($row['id'], $row['first_name'], $row['last_name'], $row['email'], $row['injury_severity'], $row['phone'], $row['came_at'], $row['code']);
 
         }
     }
     public static function getOrderedPatientsfromDb($db){
-        $result = pg_query($db,"SELECT * FROM patients 
-                                WHERE served = 'f' 
-                                ORDER BY injury_severity DESC, came_at ASC");
+        $result = pg_query($db,"SELECT *, (injury_severity * 10 + EXTRACT(EPOCH FROM NOW() - came_at) / 60 * 0.1) AS num_line
+                                FROM patients
+                                ORDER BY num_line DESC");
         # return all of patients from results
         if (!$result) {
             return null;
@@ -61,7 +59,7 @@ class Patient {
             # iterates result until there are no more rows and add them to an array
             $patients = array();
             while ($row = pg_fetch_assoc($result)) {
-                $patients[] = new Patient($row['id'], $row['first_name'], $row['last_name'], $row['email'], $row['injury_severity'], $row['phone'], $row['came_at'], $row['served'], $row['code']);
+                $patients[] = new Patient($row['id'], $row['first_name'], $row['last_name'], $row['email'], $row['injury_severity'], $row['phone'], $row['came_at'], $row['code']);
             }
             return $patients;
         }
@@ -79,7 +77,7 @@ class Patient {
     }
 
     public static function markPatientServed($db, $id){
-        $result = pg_query($db, "UPDATE patients SET served = true WHERE id = '$id'");
+        $result = pg_query($db, "DELETE patients WHERE id = '$id'");
         if (!$result) {
             return false;
         }else{
